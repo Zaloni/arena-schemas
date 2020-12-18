@@ -1,0 +1,457 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://zaloni.com/v0.0.1/asset.type.schema.json",
+  "title": "Schema for defining Asset Type",
+  "version": "0.0.1",
+  "description": "Asset types can be configured in Arena whose structure needs to be defined using an YAML file. This schema would be used by ARENA to validate the structure of any yaml file authored by any user. This schema file would also be very helpful for users as well. Users would be able to validate their yaml files before trying to register it in ARENA. This schema file also can be plugged into compatible JSON/YAML editors, IDEs and get validation, error highlighting, completion suggestions etc.",
+  "examples": [
+    {
+      "name": "Software",
+      "displayName": "Software",
+      "version": "1.0",
+      "associations": [
+        {
+          "relationship.kind": "ASSOCIATION",
+          "relationship.target": "Code",
+          "relationship.cardinality": "1.*",
+          "relationship.lookupStrategy": "API",
+          "relationship.source": "code_libraries"
+        },
+        {
+          "relationship.kind": "COMPOSITION",
+          "relationship.target": "Modules",
+          "relationship.cardinality": "1.*",
+          "relationship.source": "code_modules"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "software_name",
+          "displayName": "Software Name",
+          "description": "",
+          "attributeType": "READ-WRITE",
+          "attributeCategory": "",
+          "dataType": "select-object",
+          "defaultValue": "",
+          "storageType": "ARRAY(OBJECT)",
+          "displayCondition": "",
+          "searchable": true,
+          "shownInListing": true,
+          "required": true,
+          "relationship": {
+            "relationship.kind": "COMPOSITION",
+            "relationship.target": "Code",
+            "relationship.cardinality": "1.*",
+            "relationship.lookupStrategy": "API",
+            "relationship.source": "code_libraries"
+          }
+        },
+        {
+          "name": "code_libraries",
+          "displayName": "Code Libraries",
+          "description": "",
+          "attributeType": "READ-WRITE",
+          "attributeCategory": "",
+          "dataType": "select-object",
+          "defaultValue": "",
+          "storageType": "ARRAY(OBJECT)",
+          "displayCondition": "",
+          "searchable": true,
+          "shownInListing": true,
+          "required": true
+        },
+        {
+          "name": "code_modules",
+          "displayName": "Code Modules",
+          "description": "",
+          "attributeType": "READ-WRITE",
+          "attributeCategory": "",
+          "dataType": "select-object",
+          "defaultValue": "",
+          "storageType": "ARRAY(OBJECT)",
+          "displayCondition": "",
+          "searchable": true,
+          "shownInListing": true,
+          "required": true
+        },
+        {
+          "name": "contributors",
+          "displayName": "Contributors",
+          "description": "",
+          "attributeType": "READ-WRITE",
+          "attributeCategory": "",
+          "dataType": "multi-select-list",
+          "defaultValue": "",
+          "storageType": "ARRAY(STRING)",
+          "choices": {
+            "type": "managed_list",
+            "managedList": "contributors"
+          },
+          "displayCondition": "",
+          "searchable": true,
+          "shownInListing": true,
+          "required": true
+        },
+        {
+          "name": "language",
+          "displayName": "Programming Language",
+          "description": "",
+          "attributeType": "READ-WRITE",
+          "attributeCategory": "",
+          "dataType": "single-select-list",
+          "defaultValue": "",
+          "storageType": "STRING",
+          "choices": {
+            "type": "values",
+            "options": [
+              "Java",
+              "Python",
+              "C++"
+            ]
+          },
+          "displayCondition": "",
+          "searchable": true,
+          "shownInListing": true,
+          "required": true
+        }
+      ]
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Technical Name of the Asset Type. Asset Type technical name can be of maximum 247 characters.",
+	  "maxLength": 247,
+      "pattern": "^[A-Za-z0-9_]+$"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Display Name of the Asset Type. Asset Type display name can be of maximum 247 characters.",
+      "maxLength": 247
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema Version"
+    },
+    "guid": {
+      "type": "string",
+      "description": "System generated UUID"
+    },
+    "typeOf": {
+      "type": "string",
+      "description": "To indicate a IS-A relationship. An asset type can be a type of another defined asset type. Structurally the asset type would inherit the attributes of the related asset type of which it is a sub-type."
+    },
+    "associations": {
+      "type": "array",
+      "description": "Array of relationships which defines associations with other assets and objects.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "relationship.kind": {
+            "anyOf": [
+              {
+                "const": "ASSOCIATION",
+                "description": "ASSOCIATION is the kind of relationship which is formed when and attribute refers to one or more instance(s) of another asset type or artifact type. The lifecycle of the asset type instance and the related instances should not interfere with each other and can exist independent of each other. "
+              },
+              {
+                "const": "COMPOSITION",
+                "description": "COMPOSITION is the kind of relationship which is formed when the asset type is composed of other child asset types. The asset  instance is the parent and all the related object instance(s) are children of the asset instance. The life cycle of the related instance(s) are tightly dependent on the instance of the asset. This kind of relationship should be presented with a create/manage of the related object instance(s) from the asset itself."
+              }
+            ]
+          },
+          "relationship.target": {
+            "type": "string",
+            "description": "Indicates the type of the related object instance. Value can be any Asset Type Name, Arena Artifact Type(Workflows, Rules, Connections etc.) or Object (referring to object instances exclusive to asset type representing a composition relationship)."
+          },
+          "relationship.cardinality": {
+            "anyOf": [
+              {
+                "const": "1.1",
+                "description": "One-to-One"
+              },
+              {
+                "const": "1.*",
+                "description": "One-to-Many"
+              }
+            ]
+          },
+          "relationship.lookupStrategy": {
+            "anyOf": [
+              {
+                "const": "API",
+                "description": "Use API if there is an API mapped to the object mentioned in the relationship.target"
+              },
+              {
+                "const": "Provider",
+                "description": "Use Provider if there is a provider implementation for the object mentioned in relationship.target"
+              }
+            ]
+          },
+          "relationship.source": {
+            "type": "string",
+            "description": "The attribute name that will hold the relationship"
+          }
+        },
+        "if": {
+          "properties": {
+            "relationship.kind": {
+              "const": "ASSOCIATION"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "relationship.lookupStrategy"
+          ],
+          "$comment": "When value of relationship.kind is ASSOCIATION then relationship.lookupStrategy must be provided."
+        },
+        "else": {
+          "not": {
+            "required": [
+              "relationship.lookupStrategy"
+            ],
+            "$comment": "When value of relationship.kind is not ASSOCIATION then relationship.lookupStrategy must NOT be provided."
+          }
+        },
+        "required": [
+          "relationship.kind",
+          "relationship.target",
+          "relationship.cardinality",
+          "relationship.source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "attributes": {
+      "type": "array",
+      "description": "Array of attributes which defines the fields of an Asset.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The technical key for the attribute. The value would be unique across all custom assets. Mandatory."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "The label of the custom attribute that should appear in the UI. Mandatory."
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description about the attribute. Optional."
+          },
+          "attributeType": {
+            "anyOf": [
+              {
+                "const": "READ-ONLY",
+                "description": "READ-ONLY attributeType is non-editable from Arena"
+              },
+              {
+                "const": "READ-WRITE",
+                "description": "READ-WRITE attributeType is editable from Arena"
+              }
+            ],
+            "default": "READ-WRITE"
+          },
+          "attributeCategory": {
+            "type": "string",
+            "description": "To categorize the attributes in the UI. Optional."
+          },
+          "dataType": {
+            "anyOf": [
+              {
+                "const": "text",
+                "description": "To be used for rendering attributes with textual user input values."
+              },
+              {
+                "const": "boolean",
+                "description": "To be used for rendering attributes with boolean values."
+              },
+              {
+                "const": "number",
+                "description": "To be used for rendering attributes with numerical values."
+              },
+              {
+                "const": "datetime",
+                "description": "To be used for rendering attributes with date values."
+              },
+              {
+                "const": "daterange",
+                "description": "To be used for rendering attributes with date range values"
+              },
+              {
+                "const": "single-select-list",
+                "description": "To be used for rendering attributes with single selectable values."
+              },
+              {
+                "const": "multi-select-list",
+                "description": "To be used for rendering attributes with multi selectable values."
+              },
+              {
+                "const": "select-object",
+                "description": "To be used for adding a list of referenced objects with structural metadata defined in a separate YAML file"
+              },
+              {
+                "const": "object",
+                "description": "To be used for rendering selectable components to either create or link to other objects."
+              },
+              {
+                "const": "pills",
+                "description": "To be used for rendering attributes to accept multiple textual values as pills"
+              },
+              {
+                "const": "markup",
+                "description": "To be used for rendering attributes with descriptive values."
+              },
+              {
+                "const": "web-url",
+                "description": "To be used for rendering attributes with clickable links to open in new tab"
+              },
+              {
+                "const": "rating",
+                "description": "To be used for rendering attributes with rating values."
+              }
+            ],
+            "description": "The input control type that must appear in the UI."
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "Any default value to be rendered for the attribute. Optional."
+          },
+          "storageType": {
+            "enum": [
+              "STRING",
+              "ARRAY(STRING)",
+              "DATE",
+              "NUMBER",
+              "OBJECT",
+              "ARRAY(OBJECT)"
+            ],
+            "description": "The underlying storage class type for the attribute. Will be used for internal persisting the value of the attribute and validations."
+          },
+          "choices": {
+            "type": "object",
+            "description": "Configuration for choice attributes. Required if dataType is among single-select-list, multi-select-list or pills.",
+            "properties": {
+              "type": {
+                "anyOf": [
+                  {
+                    "const": "values",
+                    "description": "For static list of values that would appear for selection in the UI."
+                  },
+                  {
+                    "const": "managed_list",
+                    "description": "To fetch the values from an existing managed_list in Arena."
+                  }
+                ],
+                "description": "The type of values that needs to be available as user choice. Can be either 'values' or 'managed_list'."
+              },
+              "options": {
+                "type": "array",
+                "description": "Applicable for choices.type=values. These would be the static list of values that must appear for selection in the UI.",
+                "minItems": 1
+              },
+              "managedList": {
+                "type": "string",
+                "description": "Applicable for choices.type=managed_list. This is the name of an existing managed_list in Arena."
+              }
+            },
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "values"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "options"
+              ],
+              "not": {
+                "required": [
+                  "managedList"
+                ]
+              },
+              "$comment": "When value of 'choices.type' is 'values', then 'choices.options' is required and 'choices.managedList' is NOT required."
+            },
+            "else": {
+              "required": [
+                "managedList"
+              ],
+              "not": {
+                "required": [
+                  "options"
+                ]
+              },
+              "$comment": "When value of 'choices.type' is 'managed_list' (i.e. NOT values), then 'choices.managedList' is required and 'choices.values' is NOT required."
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          "displayCondition": {
+            "type": "string",
+            "description": "Boolean attribute display condition based on values of other attributes.Optional."
+          },
+          "searchable": {
+            "type": "boolean",
+            "description": "Indicates if the attribute value needs to be indexed to be searchable in Global Search.",
+            "default": true
+          },
+          "shownInListing": {
+            "type": "boolean",
+            "description": "Indicates if the attribute value needs to be rendered in the asset listing grid.",
+            "default": false
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Indicates if the attribute is a mandatory field."
+          }
+        },
+        "if": {
+          "properties": {
+            "dataType": {
+              "enum": [
+                "single-select-list",
+                "multi-select-list",
+                "pills"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "choices"
+          ],
+          "$comment": "If value of 'dataType' is 'single-select-list', 'multi-select-list' or 'pills' then 'choices' is required."
+        },
+        "else": {
+          "not": {
+            "required": [
+              "choices"
+            ]
+          },
+          "$comment": "If value of 'dataType' is NOT 'single-select-list', 'multi-select-list' or 'pills' then 'choices' is NOT required."
+        },
+        "required": [
+          "name",
+          "displayName",
+          "dataType",
+          "storageType",
+          "required"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "attributes"
+  ],
+  "additionalProperties": false
+}
