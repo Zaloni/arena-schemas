@@ -6,118 +6,152 @@
   "version": "1.0",
   "description": "Asset types can be configured in Arena whose structure needs to be defined using an YAML file. This schema would be used by ARENA to validate the structure of any yaml file authored by any user. This schema file would also be very helpful for users as well. Users would be able to validate their yaml files before trying to register it in ARENA. This schema file also can be plugged into compatible JSON/YAML editors, IDEs and get validation, error highlighting, completion suggestions etc.",
   "examples": [
-    {
-      "name": "Software",
-      "displayName": "Software",
-      "version": "1.0",
-      "icon": "Software",
-      "associations": [
-        {
-          "relationship.kind": "ASSOCIATION",
-          "relationship.target": "Code",
-          "relationship.cardinality": "1.*",
-          "relationship.lookupStrategy": "API",
-          "relationship.source": "code_libraries"
-        },
-        {
-          "relationship.kind": "COMPOSITION",
-          "relationship.target": "Modules",
-          "relationship.cardinality": "1.*",
-          "relationship.source": "code_modules"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "software_name",
-          "displayName": "Software Name",
-          "description": "",
-          "attributeType": "READ-WRITE",
-          "attributeCategory": "",
-          "dataType": "select-object",
-          "defaultValue": "",
-          "storageType": "ARRAY(OBJECT)",
-          "displayCondition": "",
-          "searchable": true,
-          "showInListing": true,
-          "required": true,
-          "relationship": {
-            "relationship.kind": "COMPOSITION",
-            "relationship.target": "Code",
-            "relationship.cardinality": "1.*",
-            "relationship.lookupStrategy": "API",
-            "relationship.source": "code_libraries"
-          }
-        },
-        {
-          "name": "code_libraries",
-          "displayName": "Code Libraries",
-          "description": "",
-          "attributeType": "READ-WRITE",
-          "attributeCategory": "",
-          "dataType": "select-object",
-          "defaultValue": "",
-          "storageType": "ARRAY(OBJECT)",
-          "displayCondition": "",
-          "searchable": true,
-          "showInListing": true,
-          "required": true
-        },
-        {
-          "name": "code_modules",
-          "displayName": "Code Modules",
-          "description": "",
-          "attributeType": "READ-WRITE",
-          "attributeCategory": "",
-          "dataType": "select-object",
-          "defaultValue": "",
-          "storageType": "ARRAY(OBJECT)",
-          "displayCondition": "",
-          "searchable": true,
-          "showInListing": true,
-          "required": true
-        },
-        {
-          "name": "contributors",
-          "displayName": "Contributors",
-          "description": "",
-          "attributeType": "READ-WRITE",
-          "attributeCategory": "",
-          "dataType": "multi-select-list",
-          "defaultValue": "",
-          "storageType": "ARRAY(STRING)",
-          "choices": {
-            "type": "managed_list",
-            "managedList": "contributors"
-          },
-          "displayCondition": "",
-          "searchable": true,
-          "showInListing": true,
-          "required": true
-        },
-        {
-          "name": "language",
-          "displayName": "Programming Language",
-          "description": "",
-          "attributeType": "READ-WRITE",
-          "attributeCategory": "",
-          "dataType": "single-select-list",
-          "defaultValue": "",
-          "storageType": "STRING",
-          "choices": {
-            "type": "values",
-            "options": [
-              "Java",
-              "Python",
-              "C++"
-            ]
-          },
-          "displayCondition": "",
-          "searchable": true,
-          "showInListing": true,
-          "required": true
-        }
-      ]
-    }
+		{
+		  "name": "Software",
+		  "version": "1.0",
+		  "typeOf": "Application",
+		  "icon": "Software",
+		  "associations": [
+		    {
+		      "relationship.kind": "ASSOCIATION",
+		      "relationship.target": "Code",
+		      "relationship.cardinality": "1.*",
+		      "relationship.source": "code_libraries"
+		    },
+		    {
+		      "relationship.kind": "COMPOSITION",
+		      "relationship.target": "Modules",
+		      "relationship.cardinality": "1.*",
+		      "relationship.source": "code_modules"
+		    }
+		  ],
+		  "attributes": [
+		    {
+		      "name": "software_name",
+		      "displayName": "Software Name",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "text",
+		      "defaultValue": "",
+		      "storageType": "STRING",
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    },
+		    {
+		      "name": "software_description",
+		      "displayName": "Software Description",
+		      "dataType": "text",
+		      "storageType": "STRING",
+		      "required": false
+		    },
+		    {
+		      "name": "code_libraries",
+		      "displayName": "Code Libraries",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "select-object",
+		      "defaultValue": "",
+		      "storageType": "ARRAY(OBJECT)",
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    },
+		    {
+		      "name": "code_modules",
+		      "displayName": "Code Modules",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "object",
+		      "defaultValue": "",
+		      "storageType": "ARRAY(OBJECT)",
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    },
+		    {
+		      "name": "contributors",
+		      "displayName": "Contributors",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "multi-select-list",
+		      "defaultValue": "",
+		      "storageType": "ARRAY(STRING)",
+		      "choices": {
+		        "type": "managed_list",
+		        "managedList": "contributors"
+		      },
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    },
+		    {
+		      "name": "language",
+		      "displayName": "Programming Language",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "single-select-list",
+		      "defaultValue": "",
+		      "storageType": "STRING",
+		      "choices": {
+		        "type": "values",
+		        "options": [
+		          "Java",
+		          "Python",
+		          "C++"
+		        ]
+		      },
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    },
+		    {
+		      "name": "domain",
+		      "displayName": "Domain",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "pills",
+		      "defaultValue": "",
+		      "storageType": "STRING",
+		      "choices": {
+		        "type": "values",
+		        "options": [
+		          "Marketing",
+		          "Sales"
+		        ]
+		      },
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    },
+		    {
+		      "name": "tags",
+		      "displayName": "Tags",
+		      "description": "",
+		      "attributeType": "READ-WRITE",
+		      "attributeCategory": "",
+		      "dataType": "pills",
+		      "defaultValue": "",
+		      "storageType": "STRING",
+		      "displayCondition": "",
+		      "searchable": true,
+		      "showInListing": true,
+		      "required": true
+		    }
+		  ]
+		}
   ],
   "type": "object",
   "properties": {
@@ -185,42 +219,9 @@
               }
             ]
           },
-          "relationship.lookupStrategy": {
-            "anyOf": [
-              {
-                "const": "API",
-                "description": "Use API if there is an API mapped to the object mentioned in the relationship.target"
-              },
-              {
-                "const": "Provider",
-                "description": "Use Provider if there is a provider implementation for the object mentioned in relationship.target"
-              }
-            ]
-          },
           "relationship.source": {
             "type": "string",
             "description": "The attribute name that will hold the relationship"
-          }
-        },
-        "if": {
-          "properties": {
-            "relationship.kind": {
-              "const": "ASSOCIATION"
-            }
-          }
-        },
-        "then": {
-          "required": [
-            "relationship.lookupStrategy"
-          ],
-          "$comment": "When value of relationship.kind is ASSOCIATION then relationship.lookupStrategy must be provided."
-        },
-        "else": {
-          "not": {
-            "required": [
-              "relationship.lookupStrategy"
-            ],
-            "$comment": "When value of relationship.kind is not ASSOCIATION then relationship.lookupStrategy must NOT be provided."
           }
         },
         "required": [
